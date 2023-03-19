@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using RealEstateProject.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services
+    .AddScoped<DbContext, DatabaseContext>()
+    .AddDbContext<DatabaseContext>(options => options.UseSqlServer("Server=.;Database=RealEstateDb;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 var app = builder.Build();
 
