@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RealEstateProject.DAL;
+using RealEstateProject.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services
     .AddScoped<DbContext, DatabaseContext>()
-    .AddDbContext<DatabaseContext>(options => options.UseSqlServer("Server=.;Database=RealEstateDb;Trusted_Connection=True;MultipleActiveResultSets=true"));
+    .AddDbContext<DatabaseContext>(options => options.UseSqlServer("Server=.;Database=RealEstateDb;Trusted_Connection=True;MultipleActiveResultSets=true"))
+    .AddTransient<IEstateRepository, EstateRepository>();
 
 var app = builder.Build();
 
