@@ -40,11 +40,9 @@ namespace RealEstateProject.DAL.Repositories
             return await _context.estates.FindAsync(id);
         }
 
-        public async Task<bool> UpdateEstate(Estate estate)
+        public async Task SaveChangesAsync()
         {
-            _context.estates.Update(estate);
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

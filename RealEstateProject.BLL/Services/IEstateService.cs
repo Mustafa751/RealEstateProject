@@ -12,7 +12,7 @@ namespace RealEstateProject.BLL.Services
         Task<IEnumerable<Estate>> GetAllEstates();
         Task<Estate> GetEstateById(int id);
         Task<Estate> CreateEstate(Estate estate);
-        Task<bool> UpdateEstate(int id);
+        Task<bool> UpdateEstate(int id, Estate estate);
         Task<bool> DeleteEstate(int id);
     }
 }

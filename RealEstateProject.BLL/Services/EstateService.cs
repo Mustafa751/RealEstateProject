@@ -44,7 +44,7 @@ namespace RealEstateProject.BLL.Services
             return await _estateRepository.GetEstateById(id);
         }
 
-        public async Task<bool> UpdateEstate(int id)
+        public async Task<bool> UpdateEstate(int id, Estate newEstate)
         {
             Estate estate = await _estateRepository.GetEstateById(id);
 
@@ -53,7 +53,12 @@ namespace RealEstateProject.BLL.Services
                 return false;
             }
 
-            return await _estateRepository.UpdateEstate(estate);
+            estate.Price = newEstate.Price;
+            estate.Address = newEstate.Address;
+
+            await _estateRepository.SaveChangesAsync();
+
+            return true;
         }
     }
 }

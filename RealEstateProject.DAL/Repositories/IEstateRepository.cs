@@ -11,7 +11,7 @@ namespace RealEstateProject.DAL.Repositories
         Task<IEnumerable<Estate>> GetAllEstates();
         Task<Estate> GetEstateById(int id);
         Task<Estate> AddEstate(Estate estate);
-        Task<bool> UpdateEstate(Estate estate);
         Task<bool> DeleteEstate(Estate estate);
+        Task SaveChangesAsync();
     }
 }
