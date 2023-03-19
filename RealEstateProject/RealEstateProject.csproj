@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RealEstateProject.BLL\RealEstateProject.BLL.csproj" />
     <ProjectReference Include="..\RealEstateProject.DAL\RealEstateProject.DAL.csproj" />
   </ItemGroup>
 
