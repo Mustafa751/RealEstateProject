@@ -28,7 +28,10 @@ using(IServiceScope scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DatabaseContext>();
-    context.Database.EnsureCreated();
+    if (context.Database.EnsureCreated())
+    {
+        context.Database.Migrate();
+    }
 }
 
 app.UseHttpsRedirection();
