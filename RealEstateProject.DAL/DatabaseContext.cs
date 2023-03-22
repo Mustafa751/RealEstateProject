@@ -26,6 +26,7 @@ namespace RealEstateProject.DAL
         {
             modelBuilder.Entity<Estate>().HasKey(e => e.Id);
             modelBuilder.Entity<Estate>().HasMany(e => e.Images).WithOne(e => e.Estate);
+            modelBuilder.Entity<Estate>().HasOne(e => e.MainImage);
             modelBuilder.Entity<Image>().HasKey(e => e.Id);
             modelBuilder.Entity<Image>().HasOne(e => e.Estate).WithMany(e => e.Images);
         }
