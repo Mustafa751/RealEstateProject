@@ -26,7 +26,7 @@ namespace RealEstateProject.DAL
         {
             modelBuilder.Entity<Estate>().HasKey(e => e.Id);
             modelBuilder.Entity<Estate>().HasMany(e => e.Images).WithOne(e => e.Estate);
-            modelBuilder.Entity<Estate>().HasOne(e => e.MainImage);
+            modelBuilder.Entity<Estate>().HasOne(e => e.MainImage).WithOne().HasForeignKey<Estate>(e => e.MainImageId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Image>().HasKey(e => e.Id);
             modelBuilder.Entity<Image>().HasOne(e => e.Estate).WithMany(e => e.Images);
         }
