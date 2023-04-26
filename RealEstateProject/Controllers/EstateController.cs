@@ -24,31 +24,47 @@ namespace RealEstateProject.Controllers
             }
 
         [HttpGet("{id}")]
-            public async Task<IActionResult> GetEstateById(int id)
+        public async Task<IActionResult> GetEstateById(int id)
         {
-                var estate = await _estateService.GetEstateById(id);
-                return Ok(estate);
+            var estate = await _estateService.GetEstateById(id);
+            if (estate == null)
+            {
+                return BadRequest();
             }
+            else
+                return Ok(estate);
+        }
 
         [HttpPost]
-            public async Task<IActionResult> CreateEstate(Estate estate)
+        public async Task<IActionResult> CreateEstate(Estate estate)
         {
-                var createdEstate = await _estateService.CreateEstate(estate);
-                return Ok(createdEstate);
+            var createdEstate = await _estateService.CreateEstate(estate);
+            if (createdEstate == null)
+            {
+                return BadRequest();
             }
+            else
+                return Ok(createdEstate);
+        }
 
         [HttpPut("{id}")]
-            public async Task<IActionResult> UpdateEstate(int id, Estate estate)
+        public async Task<IActionResult> UpdateEstate(int id, Estate estate)
         {
-                var updatedEstate = await _estateService.UpdateEstate(id, estate);
+            var updatedEstate = await _estateService.UpdateEstate(id, estate);
+            if (updatedEstate)
                 return Ok(updatedEstate);
-            }
+            else
+                return BadRequest();
+        }
 
         [HttpDelete("{id}")]
-            public async Task<IActionResult> DeleteEstate(int id)
+        public async Task<IActionResult> DeleteEstate(int id)
         {
-                var deletedEstate = await _estateService.DeleteEstate(id);
+            var deletedEstate = await _estateService.DeleteEstate(id);
+            if (deletedEstate)
                 return Ok(deletedEstate);
-            }
+            else
+                return BadRequest();
+        }
     }
 }
