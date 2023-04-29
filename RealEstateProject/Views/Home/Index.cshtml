@@ -150,21 +150,28 @@
 
 
 @section Scripts{
+
+  <script>
+  $(document).ready(function() {
+   console.log("yes");
+  });
+  </script>
+
     <script>
-        var moneySlider = document.getElementById("money");
-    var moneyLabel = document.getElementById("moneyLabel");
+        let moneySlider = document.getElementById("money");
+    let moneyLabel = document.getElementById("moneyLabel");
     moneySlider.oninput = function() {
       moneyLabel.innerHTML = "$0-" + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "";
     }
 
     // Get the modal
-    var modal = document.getElementById("realEstateModal");
+    const modal = document.getElementById("realEstateModal");
 
     // Get the button that opens the modal
-    var btn = document.getElementById("filterBtn");
+    let btn = document.getElementById("filterBtn");
 
     // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close-btn")[0];
+        let span = document.getElementsByClassName("close-btn")[0];
 
         // When the user clicks the button, open the modal
         btn.onclick = function() {
@@ -178,7 +185,7 @@
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
         modal.style.display = "none";
         }
         }
@@ -187,9 +194,9 @@
         var form = document.querySelector('form');
         form.addEventListener('submit', function(event) {
         event.preventDefault(); // prevent default form submission
-        var location = document.getElementById("location").value;
-        var money = document.getElementById("money").value;
-        var type = document.getElementById("type").value;
+        let location = document.getElementById("location").value;
+        let money = document.getElementById("money").value;
+        let type = document.getElementById("type").value;
         // Apply the selected filters and display the appropriate real estate listings on the page
         // For example, you could use an AJAX request to retrieve the filtered listings from the server and update the page with the results
         });
