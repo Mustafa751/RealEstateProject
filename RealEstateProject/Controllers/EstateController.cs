@@ -19,7 +19,7 @@ namespace RealEstateProject.Controllers
         [HttpGet]
             public async Task<IActionResult> GetAllEstates()
             {
-                var estates = await _estateService.GetAllEstates();
+                    var estates = await _estateService.GetAllEstates();
                 return Ok(estates);
             }
 
