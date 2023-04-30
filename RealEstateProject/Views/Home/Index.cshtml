@@ -35,6 +35,20 @@
     margin-bottom: 20px;
   }
   
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    }
+  
   .form-group label {
     display: block;
     font-size: 16px;
@@ -107,6 +121,7 @@
 </style>
 
 <button id="filterBtn">Filter Real Estate</button>
+<button id="addEstateBtn">Add Estate</button>
 
 <div id="realEstateModal" class="modal">
   <div class="modal-content">
@@ -148,9 +163,62 @@
 </div>
 
 
+<div id="addEstateModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form>
+      <label for="city">City:</label>
+      <select id="city" name="city">
+        <option value="Sofia">Sofia</option>
+        <option value="Varna">Varna</option>
+        <option value="Plovdiv">Plovdiv</option>
+        <option value="Ruse">Ruse</option>
+        <option value="Burgas">Burgas</option>
+      </select><br><br>
+      <label for="address">Address:</label>
+      <input type="text" id="address" name="address"><br><br>
+      <label for="price">Price:</label>
+      <input type="text" id="price" name="price"><br><br>
+      <label for="image1">Image 1:</label>
+      <input type="file" id="image1" name="image1"><br><br>
+      <label for="image2">Collection of Images:</label>
+      <input type="file" id="image2" name="image2" multiple><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+
 
 @section Scripts{
 
+  <script>
+  var modal = document.getElementById("addEstateModal");
+  
+  // Get the button that opens the modal
+  var btn = document.getElementById("addEstateBtn");
+  
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  
+  // When the user clicks on the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
+  
   <script>
   $(document).ready(function() {
    console.log("yes");
