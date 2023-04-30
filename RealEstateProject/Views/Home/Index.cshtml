@@ -193,7 +193,7 @@
 
 
 @section Scripts{
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
   let addEstateModal = document.getElementById("addEstateModal");
   
@@ -239,7 +239,28 @@
    xhr.onload = function() {
      if (xhr.status === 200) {
        // Success! Handle the response data
-       console.log(xhr.response);
+       let estates = xhr.response;
+       $.each(estates, function(index, estate) {
+         // Create a new panel element for the estate
+         let panel = $("<div>").addClass("panel");
+       
+         // Create a new heading element for the estate name
+         let heading = $("<h3>").text(estate.name);
+       
+         // Create a new image element for the estate photo
+         let image = $("<img>").attr("src", estate.photo);
+       
+         // Create a new paragraph element for the estate price
+         let price = $("<p>").text("Price: " + estate.price);
+       
+         // Add the heading, image, and price elements to the panel
+         panel.append(heading);
+         panel.append(image);
+         panel.append(price);
+       
+         // Add the panel to the page
+         $("#estates-container").append(panel);
+       });
      } else {
        // Oops! Something went wrong
        console.log("Error:", xhr.status);
