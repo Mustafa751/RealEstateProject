@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services
     .AddScoped<DbContext, DatabaseContext>()
-    .AddDbContext<DatabaseContext>(options => options.UseSqlServer("Server=DESKTOP-8FQ8PSR\\SQLEXPRESS;Database=RealEstateDb;Trusted_Connection=True;MultipleActiveResultSets=true"))
+    .AddDbContext<DatabaseContext>(options => options.UseSqlServer("Server=.;Database=RealEstateDb;Trusted_Connection=True;MultipleActiveResultSets=true"))
     .AddTransient<IEstateRepository, EstateRepository>()
     .AddTransient<IEstateService, EstateService>();
 
