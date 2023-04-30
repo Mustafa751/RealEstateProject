@@ -3,6 +3,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+
 <style>
 
 .filterBtn{
@@ -120,7 +122,7 @@
 
 </style>
 
-<button id="filterBtn">Filter Real Estate</button>
+<button class="filterBtn" id="filterBtn">Filter Real Estate</button>
 <button id="addEstateBtn">Add Estate</button>
 
 <div id="realEstateModal" class="modal">
@@ -193,35 +195,60 @@
 @section Scripts{
 
   <script>
-  var modal = document.getElementById("addEstateModal");
+  let addEstateModal = document.getElementById("addEstateModal");
   
   // Get the button that opens the modal
-  var btn = document.getElementById("addEstateBtn");
+  let addEstateBtn = document.getElementById("addEstateBtn");
   
   // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
+  let addEstateSpan = document.getElementsByClassName("close")[0];
   
   // When the user clicks on the button, open the modal
-  btn.onclick = function() {
-    modal.style.display = "block";
+  addEstateBtn.onclick = function() {
+    addEstateModal.style.display = "block";
   }
   
   // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
+  addEstateSpan.onclick = function() {
+    addEstateModal.style.display = "none";
   }
   
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
+    if (event.target === addEstateModal) {
+      addEstateModal.style.display = "none";
     }
   }
   </script>
   
   <script>
   $(document).ready(function() {
-   console.log("yes");
+   // Create a new XMLHttpRequest object
+   let xhr = new XMLHttpRequest();
+   
+   // Define the request URL
+   let url = "https://localhost:7295/api/Estate";
+   
+   // Open a new GET request with the specified URL
+   xhr.open("GET", url);
+   
+   // Set the response type to JSON
+   xhr.responseType = "text";
+   
+   // Define a callback function to handle the response
+   xhr.onload = function() {
+     if (xhr.status === 200) {
+       // Success! Handle the response data
+       console.log(xhr.response);
+     } else {
+       // Oops! Something went wrong
+       console.log("Error:", xhr.status);
+     }
+   };
+   
+   // Send the request
+   xhr.send();
+
   });
   </script>
 
@@ -233,33 +260,33 @@
     }
 
     // Get the modal
-    const modal = document.getElementById("realEstateModal");
+    let filterModal = document.getElementById("realEstateModal");
 
     // Get the button that opens the modal
-    let btn = document.getElementById("filterBtn");
+    let filterBtn = document.getElementById("filterBtn");
 
     // Get the <span> element that closes the modal
-        let span = document.getElementsByClassName("close-btn")[0];
+        let filterSpan = document.getElementsByClassName("close-btn")[0];
 
         // When the user clicks the button, open the modal
-        btn.onclick = function() {
-        modal.style.display = "block";
+        filterBtn.onclick = function() {
+        filterModal.style.display = "block";
         }
 
         // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-        modal.style.display = "none";
+        filterSpan.onclick = function() {
+        filterModal.style.display = "none";
         }
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
-        if (event.target === modal) {
-        modal.style.display = "none";
+        if (event.target === filterModal) {
+        filterModal.style.display = "none";
         }
         }
 
         // When the user submits the form in the modal
-        var form = document.querySelector('form');
+        let form = document.querySelector('form');
         form.addEventListener('submit', function(event) {
         event.preventDefault(); // prevent default form submission
         let location = document.getElementById("location").value;
