@@ -175,7 +175,7 @@
                 <option value="Varna">Varna</option>
                 <option value="Plovdiv">Plovdiv</option>
                 <option value="Ruse">Ruse</option>
-                <option value="Burgas">Burgas</option>
+                <option value="Burgas">Burgas</option>  
             </select><br><br>
             <label for="city">EstateType:</label>
             <select id="estate" name="estate">
@@ -254,10 +254,13 @@ submitBtn.addEventListener("click", function(event) {
   formData.append("price", price);
    formData.append("estateType", estate);
   formData.append("description", description);
-  formData.append("mainImage", image1);
+  /*formData.append("mainImage", image1);*/
+  let images = []
   for (var i = 0; i < image2.length; i++) {
-    formData.append("images", image2[i]);
+    images.push(image2[i]);
   }
+  formData.append("files", images);
+
 
   // Send an AJAX request to the server
   let xhr = new XMLHttpRequest();
@@ -270,13 +273,22 @@ submitBtn.addEventListener("click", function(event) {
       console.log("Error: " + xhr.status);
     }
   };
-  xhr.setRequestHeader("Content-Type", "application/json");
+  let boundary = "---------------------------" + Date.now().toString(16);
+  xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + boundary);
   var object = {};
   formData.forEach((value, key) => object[key] = value);
   var json = JSON.stringify(object);
 
-  //xhr.send(requestBodyString);
-            xhr.send(json);
+            let requestBody = "";
+            for (let pair of formData.entries()) {
+                requestBody += "--" + boundary + "\r\n";
+                requestBody += "Content-Disposition: form-data; name=\"" + pair[0] + "\"\r\n\r\n";
+                requestBody += pair[1] + "\r\n";
+            }
+            requestBody += "--" + boundary + "--";
+
+            // Send the request with the raw request body
+            xhr.send(requestBody);
 });
 </script>
 

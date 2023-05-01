@@ -12,17 +12,17 @@ builder.Services
     .AddScoped<DbContext, DatabaseContext>()
     .AddDbContext<DatabaseContext>(options => options.UseSqlServer("Server=.;Database=RealEstateDb;Trusted_Connection=True;MultipleActiveResultSets=true"))
     .AddTransient<IEstateRepository, EstateRepository>()
-    .AddTransient<IEstateService, EstateService>()
-    .AddCors(options =>
-    {
-        options.AddPolicy("CorsPolicy", builder =>
-        {
-            builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-    });
+    .AddTransient<IEstateService, EstateService>();
+    //.AddCors(options =>
+    //{
+    //    options.AddPolicy("CorsPolicy", builder =>
+    //    {
+    //        builder
+    //            .AllowAnyOrigin()
+    //            .AllowAnyMethod()
+    //            .AllowAnyHeader();
+    //    });
+    //});
 
 var app = builder.Build();
 

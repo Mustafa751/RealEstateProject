@@ -1,5 +1,8 @@
-﻿using System.Web;
+﻿using System.Text;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using RealEstateProject.BLL.Services;
 using RealEstateProject.DAL;
 
@@ -19,7 +22,7 @@ namespace RealEstateProject.Controllers
         [HttpGet]
             public async Task<IActionResult> GetAllEstates()
             {
-                    var estates = await _estateService.GetAllEstates();
+                var estates = await _estateService.GetAllEstates();
                 return Ok(estates);
             }
 
@@ -36,7 +39,7 @@ namespace RealEstateProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEstate(Estate estate)
+        public async Task<IActionResult> CreateEstate([FromForm]Estate estate)
         {
             var createdEstate = await _estateService.CreateEstate(estate);
             if (createdEstate == null)

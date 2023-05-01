@@ -1,4 +1,8 @@
-﻿namespace RealEstateProject.DAL
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RealEstateProject.DAL
 {
     public class Estate
     {
@@ -11,5 +15,9 @@
         public int? MainImageId { get; set; }
         public virtual Image? MainImage { get; set; }
         public virtual ICollection<Image>? Images { get; set; }
+
+        /*[FromBody]
+        [NotMapped]*/
+        public List<IFormFile>? Files { get => Files = new List<IFormFile>(); set { } }
     }
 }

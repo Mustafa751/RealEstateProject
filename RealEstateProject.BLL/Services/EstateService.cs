@@ -19,6 +19,35 @@ namespace RealEstateProject.BLL.Services
 
         public async Task<Estate> CreateEstate(Estate estate)
         {
+            List<Image> photolist = new List<Image>();
+
+            if(estate.Files.Count > 0)
+            {
+                foreach(var file in estate.Files)
+                {
+                    if(file.Length > 0)
+                    {
+                        using(var memoryStream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(memoryStream);
+                            Image image = new Image()
+                            {
+                                Bytes = memoryStream.ToArray(),
+                                Description = file.Name,
+                                FileExtension = Path.GetExtension(file.Name),
+                                Size = file.Length
+                            };
+
+                            photolist.Add(image);
+                        }
+                    }
+                }
+            }
+
+            estate.Images = photolist;
+            estate.MainImage = photolist.FirstOrDefault();
+
+
             return await _estateRepository.AddEstate(estate);
         }
 
