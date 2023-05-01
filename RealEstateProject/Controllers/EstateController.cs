@@ -1,8 +1,4 @@
-﻿using System.Text;
-using System.Web;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateProject.BLL.Services;
 using RealEstateProject.DAL;
 
@@ -16,15 +12,15 @@ namespace RealEstateProject.Controllers
 
         public EstateController(IEstateService estateService)
         {
-                _estateService = estateService;
-            }
+            _estateService = estateService;
+        }
 
         [HttpGet]
-            public async Task<IActionResult> GetAllEstates()
-            {
-                var estates = await _estateService.GetAllEstates();
-                return Ok(estates);
-            }
+        public async Task<IActionResult> GetAllEstates()
+        {
+            var estates = await _estateService.GetAllEstates();
+            return Ok(estates);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEstateById(int id)
@@ -39,8 +35,57 @@ namespace RealEstateProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEstate([FromForm]Estate estate)
+        public async Task<IActionResult> CreateEstate()
         {
+            string city = Request.Form["city"];
+            string estateType = Request.Form["estate"];
+            string address = Request.Form["address"];
+            int price = int.Parse(Request.Form["price"]);
+            string description = Request.Form["description"];
+
+            // Access uploaded files
+            IFormFile? image1 = Request.Form.Files["image1"];
+            List<IFormFile> image2 = Request.Form.Files
+                .Where(f => f.Name == "image2")
+                .ToList();
+
+            var estate = new Estate
+            {
+                City = city,
+                EstateType = estateType,
+                Address = address,
+                Price = price,
+                Description = description
+            };
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await image1.CopyToAsync(memoryStream);
+                var image = new Image()
+                {
+                    Bytes = memoryStream.ToArray(),
+                    Description = image1.Name,
+                    FileExtension = Path.GetExtension(image1.Name),
+                    Size = image1.Length
+                };
+                estate.MainImage = image;
+            }
+
+            foreach (var file in image2)
+            {
+                using var memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+                Image image = new Image()
+                {
+                    Bytes = memoryStream.ToArray(),
+                    Description = file.Name,
+                    FileExtension = Path.GetExtension(file.Name),
+                    Size = file.Length
+                };
+                estate.Images.Add(image);
+            }
+
+
             var createdEstate = await _estateService.CreateEstate(estate);
             if (createdEstate == null)
             {

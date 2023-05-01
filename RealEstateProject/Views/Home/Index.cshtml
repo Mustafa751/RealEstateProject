@@ -168,7 +168,7 @@
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
-        <form>
+        <form enctype="multipart/form-data">
             <label for="city">City:</label>
             <select id="city" name="city">
                 <option value="Sofia">Sofia</option>
@@ -237,59 +237,33 @@ let submitBtn = document.getElementById("submitAddFormButton");
 // Listen for the form submission
 submitBtn.addEventListener("click", function(event) {
   event.preventDefault(); // prevent the form from submitting
-
-  // Get the input field values
-  let city = document.getElementById("city").value;
-  let estate = document.getElementById("estate").value;
-  let address = document.getElementById("address").value;
-  let price = document.getElementById("price").value;
-  let description = document.getElementById("description").value;
-  let image1 = document.getElementById("image1").files[0];
-  let image2 = document.getElementById("image2").files;
-
-  // Create a FormData object to store the input data
-  let formData = new FormData();
-  formData.append("city", city);
-  formData.append("address", address);
-  formData.append("price", price);
-   formData.append("estateType", estate);
-  formData.append("description", description);
-  /*formData.append("mainImage", image1);*/
-  let images = []
-  for (var i = 0; i < image2.length; i++) {
-    images.push(image2[i]);
-  }
-  formData.append("files", images);
-
-
-  // Send an AJAX request to the server
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://localhost:7295/api/Estate");
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // handle the server response here
-      console.log(xhr.responseText);
-    } else {
-      console.log("Error: " + xhr.status);
-    }
-  };
-  let boundary = "---------------------------" + Date.now().toString(16);
-  xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + boundary);
-  var object = {};
-  formData.forEach((value, key) => object[key] = value);
-  var json = JSON.stringify(object);
-
-            let requestBody = "";
-            for (let pair of formData.entries()) {
-                requestBody += "--" + boundary + "\r\n";
-                requestBody += "Content-Disposition: form-data; name=\"" + pair[0] + "\"\r\n\r\n";
-                requestBody += pair[1] + "\r\n";
-            }
-            requestBody += "--" + boundary + "--";
-
-            // Send the request with the raw request body
-            xhr.send(requestBody);
-});
+   // Get form data
+   var formData = new FormData();
+   formData.append("city", document.getElementById("city").value);
+   formData.append("estate", document.getElementById("estate").value);
+   formData.append("address", document.getElementById("address").value);
+   formData.append("price", document.getElementById("price").value);
+   formData.append("description", document.getElementById("description").value);
+   formData.append("image1", document.getElementById("image1").files[0]);
+   var image2Files = document.getElementById("image2").files;
+   for (var i = 0; i < image2Files.length; i++) {
+     formData.append("image2", image2Files[i]);
+   }
+ 
+   // Make AJAX request
+   var xhr = new XMLHttpRequest();
+   xhr.open("POST", "https://localhost:7295/api/Estate");
+   xhr.onload = function() {
+     if (xhr.status === 200) {
+       // Handle success
+       console.log("Estate added successfully");
+     } else {
+       // Handle error
+       console.log("Error adding estate");
+     }
+   };
+   xhr.send(formData);
+ });
 </script>
 
     <script>
