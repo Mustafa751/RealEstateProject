@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateProject.BLL.Services;
 using RealEstateProject.DAL;
+using RealEstateProject.DAL.Repositories;
 
 namespace RealEstateProject.Controllers
 {
@@ -9,10 +10,12 @@ namespace RealEstateProject.Controllers
     public class EstateController : Controller
     {
         private readonly IEstateService _estateService;
+        private readonly IImageRepository _imageRepository;
 
-        public EstateController(IEstateService estateService)
+        public EstateController(IEstateService estateService, IImageRepository imageRepository)
         {
             _estateService = estateService;
+            _imageRepository = imageRepository;
         }
 
         [HttpGet]
@@ -80,8 +83,10 @@ namespace RealEstateProject.Controllers
                     Bytes = memoryStream.ToArray(),
                     Description = file.Name,
                     FileExtension = Path.GetExtension(file.Name),
-                    Size = file.Length
+                    Size = file.Length,
+                    Estate = estate
                 };
+                await _imageRepository.AddImage(image);
                 estate.Images.Add(image);
             }
 

@@ -15,9 +15,5 @@ namespace RealEstateProject.DAL
         public int? MainImageId { get; set; }
         public virtual Image? MainImage { get; set; }
         public virtual ICollection<Image>? Images { get; set; } = new List<Image>();
-
-        /*[FromBody]
-        [NotMapped]*/
-        public List<IFormFile>? Files { get => Files = new List<IFormFile>(); set { } }
     }
 }
