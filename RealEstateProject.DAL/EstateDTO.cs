@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RealEstateProject.DAL
 {
-    public class Estate
+    public class EstateDTO
     {
         public int Id { get; set; }
         public string Address { get; set; }
@@ -14,6 +16,6 @@ namespace RealEstateProject.DAL
         public double Price { get; set; }
         public int? MainImageId { get; set; }
         public virtual Image? MainImage { get; set; }
-        public virtual ICollection<Image>? Images { get; set; } = new List<Image>();
+        public virtual ICollection<ImageDTO>? Images { get; set; }
     }
 }

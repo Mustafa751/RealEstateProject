@@ -26,7 +26,7 @@ namespace RealEstateProject.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Estate>().HasKey(e => e.Id);
-            modelBuilder.Entity<Estate>().Ignore(e => e.Files);
+            //modelBuilder.Entity<Estate>().Ignore(e => e.Files);
             //modelBuilder.Entity<Estate>().Property(e => e.City).HasConversion(new EnumToStringConverter<City>());
             //modelBuilder.Entity<Estate>().Property(e => e.EstateType).HasConversion(new EnumToStringConverter<Type>());
             modelBuilder.Entity<Estate>().HasMany(e => e.Images).WithOne(e => e.Estate);

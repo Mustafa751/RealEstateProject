@@ -9,29 +9,83 @@ namespace RealEstateProject.Controllers
     public class EstateController : Controller
     {
         private readonly IEstateService _estateService;
+        private readonly IWebHostEnvironment _webHost;
 
-        public EstateController(IEstateService estateService)
+        public EstateController(IEstateService estateService, IWebHostEnvironment webHostEnvironment)
         {
             _estateService = estateService;
+            _webHost = webHostEnvironment;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllEstates()
         {
             var estates = await _estateService.GetAllEstates();
-            return Ok(estates);
+            List<EstateDTO> result = new List<EstateDTO>();
+
+            foreach (var estate in estates)
+            {
+                List<ImageDTO> images = new List<ImageDTO>();
+                foreach(var image in estate.Images)
+                {
+                    images.Add(new ImageDTO
+                    {
+                        Id = image.Id,
+                        Path = image.Path,
+                        Description = image.Description
+                    });
+                }
+
+                result.Add(new EstateDTO
+                {
+                    Id = estate.Id,
+                    Address = estate.Address,
+                    City = estate.City,
+                    Description = estate.Description,
+                    EstateType = estate.EstateType,
+                    Price = estate.Price,
+                    Images = images
+                });
+
+            }
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEstateById(int id)
         {
             var estate = await _estateService.GetEstateById(id);
+
+            List<ImageDTO> images = new List<ImageDTO>();            
+
+            foreach (var image in estate.Images)
+            {
+                images.Add(new ImageDTO
+                {
+                    Id = image.Id,
+                    Path = image.Path,
+                    Description = image.Description
+                });
+            }
+
+            EstateDTO estateDTO = new EstateDTO()
+            {
+                Id = estate.Id,
+                Address = estate.Address,
+                City = estate.City,
+                Description = estate.Description,
+                EstateType = estate.EstateType,
+                Price = estate.Price,
+                Images = images
+            };
+
             if (estate == null)
             {
                 return BadRequest();
             }
             else
-                return Ok(estate);
+                return Ok(estateDTO);
         }
 
         [HttpPost]
@@ -42,6 +96,14 @@ namespace RealEstateProject.Controllers
             string address = Request.Form["address"];
             int price = int.Parse(Request.Form["price"]);
             string description = Request.Form["description"];
+
+            string folderPath = _webHost.WebRootPath + @"/Images";
+
+            if (!Directory.Exists(folderPath))
+            {
+                // Create the folder
+                Directory.CreateDirectory(folderPath);
+            }
 
             // Access uploaded files
             IFormFile? image1 = Request.Form.Files["image1"];
@@ -58,29 +120,31 @@ namespace RealEstateProject.Controllers
                 Description = description
             };
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await image1.CopyToAsync(memoryStream);
-                var image = new Image()
-                {
-                    Bytes = memoryStream.ToArray(),
-                    Description = image1.Name,
-                    FileExtension = Path.GetExtension(image1.Name),
-                    Size = image1.Length
-                };
-                estate.MainImage = image;
-            }
+            //using (var memoryStream = new MemoryStream())
+            //{
+            //    await image1.CopyToAsync(memoryStream);
+            //    var image = new Image()
+            //    {
+            //        Description = image1.Name,
+            //        Size = image1.Length,
+            //        Estate = estate
+            //    };
+            //    //estate.MainImage = image;
+            //}
 
             foreach (var file in image2)
             {
-                using var memoryStream = new MemoryStream();
+                Guid guid = Guid.NewGuid();
+                string extension = file.FileName.Split('.')[1];
+                string filename = folderPath + "/" + guid + "." + extension;
+                using var memoryStream = System.IO.File.OpenWrite(filename);
                 await file.CopyToAsync(memoryStream);
                 Image image = new Image()
                 {
-                    Bytes = memoryStream.ToArray(),
                     Description = file.Name,
-                    FileExtension = Path.GetExtension(file.Name),
-                    Size = file.Length
+                    Size = file.Length,
+                    Estate = estate,
+                    Path = filename
                 };
                 estate.Images.Add(image);
             }
@@ -92,7 +156,7 @@ namespace RealEstateProject.Controllers
                 return BadRequest();
             }
             else
-                return Ok(createdEstate);
+                return Ok();
         }
 
         [HttpPut("{id}")]

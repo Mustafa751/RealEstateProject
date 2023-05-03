@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace RealEstateProject.DAL
 {
-    public class Image
+    public class ImageDTO
     {
         public int Id { get; set; }
         public string Description { get; set; }
         public string Path { get; set; }
-        public decimal Size { get; set; }
-        public int EstateId { get; set; }
-        public virtual Estate Estate { get; set; }
     }
 }
