@@ -199,9 +199,11 @@
 </div>
 
 
+<div id="estates-container"></div>
+
 @section Scripts{
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
   let addEstateModal = document.getElementById("addEstateModal");
   
   // Get the button that opens the modal
@@ -228,7 +230,7 @@
   }
   </script>
 
-    <script>
+  <script>
 let modal = document.getElementById("myModal");
 
 // Get the submit button
@@ -266,7 +268,7 @@ submitBtn.addEventListener("click", function(event) {
  });
 </script>
 
-    <script>
+  <script>
   $(document).ready(function() {
    // Create a new XMLHttpRequest object
    let xhr = new XMLHttpRequest();
@@ -284,16 +286,17 @@ submitBtn.addEventListener("click", function(event) {
    xhr.onload = function() {
      if (xhr.status === 200) {
        // Success! Handle the response data
-       let estates = xhr.response;
-       $.each(estates, function(index, estate) {
+       let estates = JSON.parse(xhr.response);
+       for (let estate of estates) {
+      
          // Create a new panel element for the estate
          let panel = $("<div>").addClass("panel");
        
          // Create a new heading element for the estate name
-         let heading = $("<h3>").text(estate.name);
+         let heading = $("<h3>").text(estate.address);
        
          // Create a new image element for the estate photo
-         let image = $("<img>").attr("src", estate.photo);
+         let image = $("<img>").attr("src", estate.images[0].path);
        
          // Create a new paragraph element for the estate price
          let price = $("<p>").text("Price: " + estate.price);
@@ -305,7 +308,7 @@ submitBtn.addEventListener("click", function(event) {
        
          // Add the panel to the page
          $("#estates-container").append(panel);
-       });
+      }
      } else {
        // Oops! Something went wrong
        console.log("Error:", xhr.status);
@@ -318,7 +321,7 @@ submitBtn.addEventListener("click", function(event) {
   });
   </script>
 
-    <script>
+  <script>
         let moneySlider = document.getElementById("money");
     let moneyLabel = document.getElementById("moneyLabel");
     moneySlider.oninput = function() {
