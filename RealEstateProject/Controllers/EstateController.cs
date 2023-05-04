@@ -40,6 +40,7 @@ namespace RealEstateProject.Controllers
                 {
                     Id = estate.Id,
                     Address = estate.Address,
+                    Name = estate.Name,
                     City = estate.City,
                     Description = estate.Description,
                     EstateType = estate.EstateType,
@@ -76,6 +77,7 @@ namespace RealEstateProject.Controllers
                 City = estate.City,
                 Description = estate.Description,
                 EstateType = estate.EstateType,
+                Name = estate.Name,
                 Price = estate.Price,
                 Images = images
             };
