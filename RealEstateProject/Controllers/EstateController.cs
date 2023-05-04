@@ -99,7 +99,7 @@ namespace RealEstateProject.Controllers
             int price = int.Parse(Request.Form["price"]);
             string description = Request.Form["description"];
 
-            string folderPath = _webHost.WebRootPath + @"/Images";
+            string folderPath = @"/Images";
 
             if (!Directory.Exists(folderPath))
             {
@@ -139,7 +139,7 @@ namespace RealEstateProject.Controllers
                 Guid guid = Guid.NewGuid();
                 string extension = file.FileName.Split('.')[1];
                 string filename = folderPath + "/" + guid + "." + extension;
-                using var memoryStream = System.IO.File.OpenWrite(filename);
+                using var memoryStream = System.IO.File.OpenWrite(_webHost.WebRootPath + filename);
                 await file.CopyToAsync(memoryStream);
                 Image image = new Image()
                 {

@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RealEstateProject.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+<style>
+    .social-icons li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+</style>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -38,8 +45,21 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - RealEstateProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Follow us on social media:</h4>
+                        <ul class="list-inline social-icons">
+                            <li><a href="https://www.facebook.com/"><i class="fa fa-facebook fa-lg"></i></a></li>
+                            <li><a href="https://twitter.com/"><i class="fa fa-twitter fa-lg"></i></a></li>
+                            <li><a href="https://www.instagram.com/"><i class="fa fa-instagram fa-lg"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Contact us:</h4>
+                        <p>Phone: +359846257953</p>
+                    </div>
+                </div>
+            </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
