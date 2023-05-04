@@ -5,11 +5,20 @@
 
 
 <style>
-
 .filterBtn{
   /* Other button styles */
   float: right;
 }
+
+.card {
+  background-color: #f0e1d2;
+}
+
+.btn-secondary {
+  background-color: #333333;
+  color: #ffffff;
+}
+
   .modal {
     display: none;
     position: fixed;
@@ -118,9 +127,12 @@
       margin-top: 20%;
     }
   }
+  .body-page{
+  padding-top: 25px;;
+  }
 
 </style>
-
+<div class="body-page">
 <button class="filterBtn" id="filterBtn">Filter Real Estate</button>
 <button id="addEstateBtn">Add Estate</button>
 
@@ -175,7 +187,7 @@
                 <option value="Varna">Varna</option>
                 <option value="Plovdiv">Plovdiv</option>
                 <option value="Ruse">Ruse</option>
-                <option value="Burgas">Burgas</option>  
+                <option value="Burgas">Burgas</option>
             </select><br><br>
             <label for="city">EstateType:</label>
             <select id="estate" name="estate">
@@ -183,6 +195,8 @@
                 <option value="House">House</option>
                 <option value="Land">Land</option>
             </select><br><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
             <label for="address">Address:</label>
             <input type="text" id="address" name="address"><br><br>
             <label for="price">Price:</label>
@@ -198,12 +212,24 @@
     </div>
 </div>
 
+<div class="row">
+  <div class="col-md-4">
+    <!-- Card 1 -->
+  </div>
+  <div class="col-md-4">
+    <!-- Card 2 -->
+  </div>
+  <div class="col-md-4">
+    <!-- Card 3 -->
+  </div>
+  <div class="clearfix"></div>
+</div>
 
-<div id="estates-container"></div>
-
+<div id="estates-container" style="background-color: #faf0e6" class="row row-cols-1 row-cols-md-2 g-4"></div>
+</div>
 @section Scripts{
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
   let addEstateModal = document.getElementById("addEstateModal");
   
   // Get the button that opens the modal
@@ -230,7 +256,7 @@
   }
   </script>
 
-  <script>
+    <script>
 let modal = document.getElementById("myModal");
 
 // Get the submit button
@@ -242,6 +268,7 @@ submitBtn.addEventListener("click", function(event) {
    // Get form data
    var formData = new FormData();
    formData.append("city", document.getElementById("city").value);
+   formData.append("name", document.getElementById("name").value);
    formData.append("estate", document.getElementById("estate").value);
    formData.append("address", document.getElementById("address").value);
    formData.append("price", document.getElementById("price").value);
@@ -268,7 +295,7 @@ submitBtn.addEventListener("click", function(event) {
  });
 </script>
 
-  <script>
+    <script>
   $(document).ready(function() {
    // Create a new XMLHttpRequest object
    let xhr = new XMLHttpRequest();
@@ -289,25 +316,39 @@ submitBtn.addEventListener("click", function(event) {
        let estates = JSON.parse(xhr.response);
        for (let estate of estates) {
       
-         // Create a new panel element for the estate
-         let panel = $("<div>").addClass("panel");
+       // Create a new card element
+       let card = $("<div>").addClass("card d-inline-block m-5").css("width", "30rem");
        
-         // Create a new heading element for the estate name
-         let heading = $("<h3>").text(estate.address);
+       // Create a new image element and set its source
+       let image = $("<img>").addClass("card-img-top w-50 float-start p-4").attr("src", estate.images[0].path);
        
-         // Create a new image element for the estate photo
-         let image = $("<img>").attr("src", estate.images[0].path);
+       // Create a new card body element
+       let body = $("<div>").addClass("card-body d-flex flex-column");
        
-         // Create a new paragraph element for the estate price
-         let price = $("<p>").text("Price: " + estate.price);
+       // Create a new heading element for the estate name
+       let heading = $("<h5>").addClass("card-title").text(estate.address);
        
-         // Add the heading, image, and price elements to the panel
-         panel.append(heading);
-         panel.append(image);
-         panel.append(price);
+       // Create a new paragraph element for the estate price
+       let price = $("<p>").addClass("card-text").text("Price: " + estate.price);
        
-         // Add the panel to the page
-         $("#estates-container").append(panel);
+       // Create a new button element
+       let button = $("<a>").addClass("btn btn-secondary").attr("href", "#").text("View");
+       
+       // Create a new container element for the button
+       let buttonContainer = $("<div>").addClass("d-flex justify-content-end mt-4");
+       
+       // Append the button to the button container
+       buttonContainer.append(button);
+       
+       // Append the heading, price, and button container to the card body
+       body.append(heading, price, buttonContainer);
+       
+       // Append the image and card body to the card
+       card.append(image, body);
+       
+       // Add the card to the page
+       $("#estates-container").append(card);
+      
       }
      } else {
        // Oops! Something went wrong
@@ -321,7 +362,7 @@ submitBtn.addEventListener("click", function(event) {
   });
   </script>
 
-  <script>
+    <script>
         let moneySlider = document.getElementById("money");
     let moneyLabel = document.getElementById("moneyLabel");
     moneySlider.oninput = function() {

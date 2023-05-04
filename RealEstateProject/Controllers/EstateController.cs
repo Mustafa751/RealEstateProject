@@ -94,6 +94,7 @@ namespace RealEstateProject.Controllers
         public async Task<IActionResult> CreateEstate()
         {
             string city = Request.Form["city"];
+            string name = Request.Form["name"];
             string estateType = Request.Form["estate"];
             string address = Request.Form["address"];
             int price = int.Parse(Request.Form["price"]);
@@ -115,6 +116,7 @@ namespace RealEstateProject.Controllers
 
             var estate = new Estate
             {
+                Name = name,
                 City = city,
                 EstateType = estateType,
                 Address = address,
