@@ -359,37 +359,40 @@ submitBtn.addEventListener("click", function(event) {
      if (xhr.status === 200) {
        // Success! Handle the response data
        let estates = JSON.parse(xhr.response);
-       for (let estate of estates) {
-      
-       // Create a new card element
-       let card = $("<div>").addClass("card d-inline-block m-5").css("width", "33rem");
-       
-       // Create a new image element and set its source
-       let image = $("<img>").addClass("card-img-top w-50 float-start p-4").attr("src", estate.images[0].path);
-       
-       // Create a new card body element
-       let body = $("<div>").addClass("card-body d-flex flex-column");
-       
-       // Create a new heading element for the estate name
-       let heading = $("<h5>").addClass("card-title").text(estate.address);
-       
-       // Create a new paragraph element for the estate price
-       let price = $("<p>").addClass("card-text").text("Price: " + estate.price);
-       
-       // Create a new button element
-       let button = $("<a>").addClass("btn btn-secondary").attr("href", "https://localhost:7295/api/Estate/" + estate.id).text("View");
-       
-       // Create a new container element for the button
-       let buttonContainer = $("<div>").addClass("d-flex justify-content-end mt-4");
-       
-       // Append the button to the button container
-       buttonContainer.append(button);
-       
-       // Append the heading, price, and button container to the card body
-       body.append(heading, price, buttonContainer);
-       
-       // Append the image and card body to the card
-       card.append(image, body);
+      for (let estate of estates) {
+            
+             // Create a new card element
+             let card = $("<div>").addClass("card d-inline-block m-5").css("width", "33rem");
+             
+             // Create a new image element and set its source
+             let image = $("<img>").addClass("card-img-top w-50 float-start p-4").attr("src", estate.images[0].path);
+             
+             // Create a new card body element
+             let body = $("<div>").addClass("card-body d-flex flex-column");
+             
+             // Create a new heading element for the estate name
+             let heading = $("<h5>").addClass("card-title").text(estate.address);
+             
+             // Create a new paragraph element for the estate type
+             let type = $("<p>").addClass("card-text").text("Estate Type: " + estate.estateType);
+             
+             // Create a new paragraph element for the estate price
+             let price = $("<p>").addClass("card-text").text("Price: " + estate.price);
+             
+             // Create a new button element
+             let button = $("<a>").addClass("btn btn-secondary").attr("href", "https://localhost:7295/api/Estate/" + estate.id).text("View");
+             
+             // Create a new container element for the button
+             let buttonContainer = $("<div>").addClass("d-flex justify-content-end mt-4");
+             
+             // Append the button to the button container
+             buttonContainer.append(button);
+             
+             // Append the heading, type, price, and button container to the card body
+             body.append(heading, type, price, buttonContainer);
+             
+             // Append the image and card body to the card
+             card.append(image, body);
        
        // Add the card to the page
        $("#estates-container").append(card);
