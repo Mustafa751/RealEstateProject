@@ -86,8 +86,8 @@ namespace RealEstateProject.Controllers
             {
                 return BadRequest();
             }
-            else
-                return Ok(estateDTO);
+
+            return View("Estate",estateDTO);
         }
 
         [HttpPost]

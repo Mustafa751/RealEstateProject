@@ -7,6 +7,11 @@
 <style>
 .filterBtn{
   /* Other button styles */
+   border-radius: 20px; /* adjust the value as needed to control the roundness of the button */
+    padding: 10px 20px; /* adjust the values as needed to control the size of the button */
+    color: #333333; /* use a contrasting text color that is easily readable on the background color */
+    border: none; /* remove the border to make the button appear more rounded */
+    cursor: pointer;
   float: right;
 }
 
@@ -58,7 +63,6 @@
     text-decoration: none;
     cursor: pointer;
     }
-  
   .form-group label {
     display: block;
     font-size: 16px;
@@ -130,13 +134,31 @@
   .body-page{
   padding-top: 25px;;
   }
+  .sort-dropdown{
+   background-color: burlywood; /* set the background color of the select element */
+    color: #333333; /* set the text color to create contrast with the background color */
+    border: none; /* remove the default border */
+    padding: 10px; /* adjust the padding as needed to control the size of the select element */
+    border-radius: 20px; /* adjust the border-radius as needed to control the roundness of the select element */
+    appearance: none; /* remove the default arrow that appears in some browsers */
+    -webkit-appearance: none; /* remove the default arrow for Safari */
+    -moz-appearance: none; /
+  }
+  
+
 
 </style>
 <div class="body-page">
-<button class="filterBtn" id="filterBtn">Filter Real Estate</button>
-<button id="addEstateBtn">Add Estate</button>
+    <button class="filterBtn" id="filterBtn" style="background-color: burlywood">Filter</button>
+    @* <button id="addEstateBtn">Add Estate</button> *@
+    <label for="sort-dropdown">Sort by:</label>
+    <select class="sort-dropdown" id="sort-dropdown">
+        <option value="">Please choose an option ▼</option>
+        <option value="price-asc">Възходяща цена</option>
+        <option value="price-desc">Низходяща цена</option>
+    </select>
 
-<div id="realEstateModal" class="modal">
+    <div id="realEstateModal" class="modal">
     <div class="modal-content">
         <h2>Real Estate Filters</h2>
         <form>
@@ -213,20 +235,21 @@
 </div>
 
 <div class="row">
-  <div class="col-md-4">
-    <!-- Card 1 -->
-  </div>
-  <div class="col-md-4">
-    <!-- Card 2 -->
-  </div>
-  <div class="col-md-4">
-    <!-- Card 3 -->
-  </div>
-  <div class="clearfix"></div>
+    <div class="col-md-4">
+        <!-- Card 1 -->
+    </div>
+    <div class="col-md-4">
+        <!-- Card 2 -->
+    </div>
+    <div class="col-md-4">
+        <!-- Card 3 -->
+    </div>
+    <div class="clearfix"></div>
 </div>
 
-<div id="estates-container" style="background-color: #faf0e6" class="row row-cols-1 row-cols-md-2 g-4"></div>
+<div id="estates-container" style="background-color: #faf0e6" class="row row-cols-1 row-cols-md-2 g-1"></div>
 </div>
+
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -239,14 +262,14 @@
   let addEstateSpan = document.getElementsByClassName("close")[0];
   
   // When the user clicks on the button, open the modal
-  addEstateBtn.onclick = function() {
-    addEstateModal.style.display = "block";
-  }
+ // addEstateBtn.onclick = function() {
+   // addEstateModal.style.display = "block";
+  //}
   
   // When the user clicks on <span> (x), close the modal
-  addEstateSpan.onclick = function() {
-    addEstateModal.style.display = "none";
-  }
+ // addEstateSpan.onclick = function() {
+   // addEstateModal.style.display = "none";
+  //}
   
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
@@ -297,6 +320,28 @@ submitBtn.addEventListener("click", function(event) {
 
     <script>
   $(document).ready(function() {
+    
+   $('#sort-dropdown').on('change', function() {
+     var selectedValue = $(this).val();
+     if (selectedValue === 'price-asc') {
+       var cards = $('#estates-container .card');
+       cards.sort(function(a, b) {
+         var aPrice = parseInt($(a).find('p.card-text:contains("Price:")').text().replace('Price:', '').trim());
+         var bPrice = parseInt($(b).find('p.card-text:contains("Price:")').text().replace('Price:', '').trim());
+         return aPrice - bPrice;
+       });
+       $("#estates-container").html(cards);
+     } else if (selectedValue === 'price-desc') {
+       var cards = $('#estates-container .card');
+       cards.sort(function(a, b) {
+         var aPrice = parseInt($(a).find('p.card-text:contains("Price:")').text().replace('Price:', '').trim());
+         var bPrice = parseInt($(b).find('p.card-text:contains("Price:")').text().replace('Price:', '').trim());
+         return bPrice - aPrice;
+       });
+       $("#estates-container").html(cards);
+     }
+   });
+
    // Create a new XMLHttpRequest object
    let xhr = new XMLHttpRequest();
    
@@ -317,7 +362,7 @@ submitBtn.addEventListener("click", function(event) {
        for (let estate of estates) {
       
        // Create a new card element
-       let card = $("<div>").addClass("card d-inline-block m-5").css("width", "30rem");
+       let card = $("<div>").addClass("card d-inline-block m-5").css("width", "33rem");
        
        // Create a new image element and set its source
        let image = $("<img>").addClass("card-img-top w-50 float-start p-4").attr("src", estate.images[0].path);
@@ -332,7 +377,7 @@ submitBtn.addEventListener("click", function(event) {
        let price = $("<p>").addClass("card-text").text("Price: " + estate.price);
        
        // Create a new button element
-       let button = $("<a>").addClass("btn btn-secondary").attr("href", "#").text("View");
+       let button = $("<a>").addClass("btn btn-secondary").attr("href", "https://localhost:7295/api/Estate/" + estate.id).text("View");
        
        // Create a new container element for the button
        let buttonContainer = $("<div>").addClass("d-flex justify-content-end mt-4");
