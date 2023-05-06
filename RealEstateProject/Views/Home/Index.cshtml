@@ -150,7 +150,7 @@
 </style>
 <div class="body-page">
     <button class="filterBtn" id="filterBtn" style="background-color: burlywood">Filter</button>
-    @* <button id="addEstateBtn">Add Estate</button> *@
+     <button id="addEstateBtn">Add Estate</button> 
     <label for="sort-dropdown">Sort by:</label>
     <select class="sort-dropdown" id="sort-dropdown">
         <option value="">Please choose an option ▼</option>
@@ -262,14 +262,14 @@
   let addEstateSpan = document.getElementsByClassName("close")[0];
   
   // When the user clicks on the button, open the modal
- // addEstateBtn.onclick = function() {
-   // addEstateModal.style.display = "block";
-  //}
+  addEstateBtn.onclick = function() {
+    addEstateModal.style.display = "block";
+  }
   
   // When the user clicks on <span> (x), close the modal
- // addEstateSpan.onclick = function() {
-   // addEstateModal.style.display = "none";
-  //}
+  addEstateSpan.onclick = function() {
+    addEstateModal.style.display = "none";
+  }
   
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {

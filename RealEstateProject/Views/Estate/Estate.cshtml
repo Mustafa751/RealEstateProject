@@ -36,25 +36,32 @@
   
   .estate-details-container {
   display: flex;
-          max-width: 800px;
+          max-width: 2200px;
           margin-top: 250px;
           padding: 20px;
       }
   
       h2 {
+       font-size: 36px;
           margin-bottom: 10px;
       }
   
       p {
+       font-size: 24px;
           margin-bottom: 5px;
       }
         .estate-details-left {
                flex-basis: 40%;
            }
            .estate-details-right {
-                margin-left: 200px;
-               flex-basis: 60%;
-           }
+               margin-left: 200px;
+               flex-basis: 70%;
+               padding: 20px;
+               display: flex;
+               flex-direction: column;
+               justify-content: space-between;
+             }
+
           
            .carousel-arrow-left {
                    left: 0;
@@ -62,48 +69,69 @@
                .carousel-arrow-right {
                    right: 0;
                }
+               
+                .estate-details-top p {
+                   margin: 0;
+                   font-size: 24px;
+                 }
+                 
+                 .estate-details-middle {
+                     display: flex;
+                     flex-direction: column;
+                     align-items: flex-start;
+                     margin-top: 20px;
+                   }
+                 
+                   .estate-details-middle p {
+                     margin: 0;
+                     font-size: 24px;
+                   }
+                 
                .estate-details-top {
                    display: flex;
-                   justify-content: space-between;
-                   align-items: baseline;
-               }
+                   flex-direction: column;
+                   align-items: flex-start;
+                 }
                .estate-details-bottom {
-                   display: flex;
-                   justify-content: space-between;
-                   align-items: baseline;
+                    display: flex;
+                       flex-direction: column;
+                       align-items: flex-start;
+                       margin-top: 20px
                }
                .estate-details-description {
                    margin-top: 20px;
-               }
+                   font-size: 24px;
+                   line-height: 1.5;
+                 }
 </style>
 
 <div class="estate-details-container">
-        <div class="estate-details-left">
-            <div class="carousel-container">
-                <div class="carousel-image-container">
-                    @foreach (var image in Model.Images)
-                    {
-                        <img src="@image.Path" class="carousel-image">
-                    }
-                </div>
-                <button class="carousel-arrow carousel-arrow-left">&#10094;</button>
-                <button class="carousel-arrow carousel-arrow-right">&#10095;</button>
-            </div>
-        </div>
-        <div class="estate-details-right">
-            <div class="estate-details-top">
-                <h2>@Model.Name</h2>
-                <p>@Model.Address</p>
-            </div>
-            <div class="estate-details-bottom">
-                <p>@Model.City</p>
-                <p>@String.Format("{0:C}", Model.Price)</p>
-            </div>
-            <div class="estate-details-description">
-                <p><strong>Estate Type:</strong> @Model.EstateType</p>
-                <p><strong>Description:</strong> @Model.Description</p>
-            </div>
-        </div>
+  <div class="estate-details-left">
+    <div class="carousel-container">
+      <div class="carousel-image-container">
+        @foreach (var image in Model.Images)
+        {
+        <img src="@image.Path" class="carousel-image">
+        }
+      </div>
+      <button class="carousel-arrow carousel-arrow-left">&#10094;</button>
+      <button class="carousel-arrow carousel-arrow-right">&#10095;</button>
+    </div>
+  </div>
+  <div class="estate-details-right">
+    <div class="estate-details-top">
+      <h2>@Model.Name</h2>
+    </div>
+    <div class="estate-details-middle">
+      <p><strong>Price: </strong>@String.Format("{0:C}", Model.Price)</p>
+      <p><strong>City: </strong>@Model.City</p>
+      <p><strong>Address: </strong>@Model.Address</p>
+    </div>
+    <div class="estate-details-bottom">
+      <p><strong>Estate Type:</strong> @Model.EstateType</p>
+      <p><strong>Description:</strong> @Model.Description</p>
+    </div>
+  </div>
 </div>
 
 <script>
