@@ -145,7 +145,98 @@
     -moz-appearance: none; /
   }
   
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Modal form */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Modal heading */
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Modal form group */
+.modal-content .form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Modal label */
+.modal-content label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Modal select */
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/* Modal price range input */
+.modal-content input[type="range"] {
+  width: 100%;
+}
+
+/* Modal price label */
+.modal-content #moneyLabel {
+  display: block;
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Modal buttons */
+.modal-content .text-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal-content .btn {
+  margin-left: 10px;
+}
+
+/* Close button */
+.close-btn {
+  background-color: #ccc;
+  border: none;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #333;
+  color: #fff;
+}
 
 </style>
 <div class="body-page">
@@ -166,11 +257,11 @@
                 <label for="location">Location:</label>
                 <select class="form-control" id="location">
                     <option value="">Any</option>
-                    <option value="New York">New York</option>
-                    <option value="Los Angeles">Los Angeles</option>
-                    <option value="Chicago">Chicago</option>
-                    <option value="Houston">Houston</option>
-                    <option value="Philadelphia">Philadelphia</option>
+                    <option value="Sofia">Sofia</option>
+                                    <option value="Varna">Varna</option>
+                                    <option value="Plovdiv">Plovdiv</option>
+                                    <option value="Ruse">Ruse</option>
+                                    <option value="Burgas">Burgas</option>
                 </select>
             </div>
             <div class="form-group">
@@ -181,12 +272,9 @@
             <div class="form-group">
                 <label for="type">Type:</label>
                 <select class="form-control" id="type">
-                    <option value="">Any</option>
-                    <option value="House">House</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Condo">Condo</option>
-                    <option value="Townhouse">Townhouse</option>
-                    <option value="Duplex">Duplex</option>
+                     <option value="Apartment">Apartment</option>
+                                    <option value="House">House</option>
+                                    <option value="Land">Land</option>
                 </select>
             </div>
             <div class="form-group text-right">
