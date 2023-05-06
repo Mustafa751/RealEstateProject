@@ -53,6 +53,42 @@ namespace RealEstateProject.Controllers
             return Ok(result);
         }
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetEstates(Filter filter)
+        {
+            var estates = await _estateService.GetEstates(filter);
+            List<EstateDTO> result = new List<EstateDTO>();
+
+            foreach (var estate in estates)
+            {
+                List<ImageDTO> images = new List<ImageDTO>();
+                foreach (var image in estate.Images)
+                {
+                    images.Add(new ImageDTO
+                    {
+                        Id = image.Id,
+                        Path = image.Path,
+                        Description = image.Description
+                    });
+                }
+
+                result.Add(new EstateDTO
+                {
+                    Id = estate.Id,
+                    Address = estate.Address,
+                    Name = estate.Name,
+                    City = estate.City,
+                    Description = estate.Description,
+                    EstateType = estate.EstateType,
+                    Price = estate.Price,
+                    Images = images
+                });
+
+            }
+
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEstateById(int id)
         {

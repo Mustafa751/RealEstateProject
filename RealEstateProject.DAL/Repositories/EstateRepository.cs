@@ -35,6 +35,11 @@ namespace RealEstateProject.DAL.Repositories
             return await _context.estates.ToListAsync();
         }
 
+        public async Task<IEnumerable<Estate>> GetEstates(double minPrice, double maxPrice, string city, string type)
+        {
+            return await _context.estates.Where(e => e.Price >= minPrice & e.Price <= maxPrice & e.City == city & e.EstateType == type).ToListAsync();
+        }
+
         public async Task<Estate> GetEstateById(int id)
         {
             return await _context.estates.FindAsync(id);

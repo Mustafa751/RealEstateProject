@@ -44,6 +44,11 @@ namespace RealEstateProject.BLL.Services
             return await _estateRepository.GetEstateById(id);
         }
 
+        public async Task<IEnumerable<Estate>> GetEstates(Filter filter)
+        {
+            return await _estateRepository.GetEstates(filter.MinPrice, filter.MaxPrice, filter.City, filter.Type);
+        }
+
         public async Task<bool> UpdateEstate(int id, Estate newEstate)
         {
             Estate estate = await _estateRepository.GetEstateById(id);
