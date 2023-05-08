@@ -1,6 +1,81 @@
 ﻿@model RealEstateProject.DAL.EstateDTO
 
 <style>
+.modal {
+  display: none; /* Hide the modal by default */
+  position: fixed; /* Position the modal */
+  z-index: 1; /* Make sure it's on top of other elements */
+  left: 0;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  overflow: auto; /* Enable scrolling if needed */
+  margin-left: 20%;
+}
+.inputs{
+   background-color:  papayawhip;
+}
+
+/* Modal content styling */
+.modal-content {
+  background-color: #DECC9C;
+  margin: 10% auto; /* Center the modal content */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Set the width of the modal content */
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+}
+
+/* Close button styling */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Custom styles for form elements */
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+input[type="text"],
+input[type="tel"] {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+button[type="submit"] {
+  display: block;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+}
   .carousel-container {
     position: relative;
     width: 100%;
@@ -103,36 +178,99 @@
                    font-size: 24px;
                    line-height: 1.5;
                  }
+                 
+                 .bookPreviewButton{
+                   /* Other button styles */
+                    border-radius: 20px; /* adjust the value as needed to control the roundness of the button */
+                     padding: 10px 20px; /* adjust the values as needed to control the size of the button */
+                     background-color: burlywood; /* use a contrasting text color that is easily readable on the background color */
+                     border: none; /* remove the border to make the button appear more rounded */
+                     cursor: pointer;
+                   float: right;
+                 }
 </style>
 
 <div class="estate-details-container">
-  <div class="estate-details-left">
-    <div class="carousel-container">
-      <div class="carousel-image-container">
-        @foreach (var image in Model.Images)
-        {
-        <img src="@image.Path" class="carousel-image">
-        }
-      </div>
-      <button class="carousel-arrow carousel-arrow-left">&#10094;</button>
-      <button class="carousel-arrow carousel-arrow-right">&#10095;</button>
+    <div class="estate-details-left">
+        <div class="carousel-container">
+            <div class="carousel-image-container">
+                @foreach (var image in Model.Images)
+                {
+                    <img src="@image.Path" class="carousel-image">
+                }
+            </div>
+            <button class="carousel-arrow carousel-arrow-left">&#10094;</button>
+            <button class="carousel-arrow carousel-arrow-right">&#10095;</button>
+        </div>
     </div>
-  </div>
-  <div class="estate-details-right">
-    <div class="estate-details-top">
-      <h2>@Model.Name</h2>
+    <div class="estate-details-right">
+        <div class="estate-details-top">
+            <h2>@Model.Name</h2>
+        </div>
+        <div class="estate-details-middle">
+            <p><strong>Price: </strong>@String.Format("{0:C}", Model.Price)</p>
+            <p><strong>City: </strong>@Model.City</p>
+            <p><strong>Address: </strong>@Model.Address</p>
+        </div>
+        <div class="estate-details-bottom">
+            <p><strong>Estate Type:</strong> @Model.EstateType</p>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <button id="bookPreviewButton" class="bookPreviewButton">Book Preview</button>
+        </div>
     </div>
-    <div class="estate-details-middle">
-      <p><strong>Price: </strong>@String.Format("{0:C}", Model.Price)</p>
-      <p><strong>City: </strong>@Model.City</p>
-      <p><strong>Address: </strong>@Model.Address</p>
-    </div>
-    <div class="estate-details-bottom">
-      <p><strong>Estate Type:</strong> @Model.EstateType</p>
-      <p><strong>Description:</strong> @Model.Description</p>
-    </div>
-  </div>
 </div>
+
+<div id="bookPreviewModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Book Preview</h2>
+        <form id="bookPreviewForm">
+            <label for="name">First Name:</label><input type="text" id="name" class="inputs" name="name" required>
+            <label for="name">Surname:</label><input type="text" id="name" class="inputs" name="name" required>
+            <label for="name">Last Name:</label><input type="text" id="name" class="inputs" name="name" required>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" class="inputs" required>
+            <button type="submit" style="margin-top: 20px; float: right;">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+  // Get the modal
+  var modal = document.getElementById("bookPreviewModal");
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("bookPreviewButton");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // Handle form submission
+  var form = document.getElementById("bookPreviewForm");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    let filterModal = document.getElementById("bookPreviewModal");
+                         filterModal.style.display = "none";
+  });
+</script>
 
 <script>
     // Load all images and determine the smallest width and height

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateProject.BLL.Services;
 using RealEstateProject.DAL;
+using static System.Int32;
 
 namespace RealEstateProject.Controllers
 {
@@ -53,9 +54,19 @@ namespace RealEstateProject.Controllers
             return Ok(result);
         }
 
-        [HttpGet("filter")]
-        public async Task<IActionResult> GetEstates(Filter filter)
+        [HttpPost("filter")]
+        public async Task<IActionResult> GetEstates()
         {
+            
+            string city = Request.Form["city"];
+            string type = Request.Form["type"];
+            string minPrice = Request.Form["minPrice"];
+            string maxPrice = Request.Form["maxPrice"];
+            Filter filter = new Filter();
+            filter.City = city;
+            filter.Type = type;
+            filter.MinPrice = Parse(minPrice);
+            filter.MaxPrice = Parse(maxPrice);
             var estates = await _estateService.GetEstates(filter);
             List<EstateDTO> result = new List<EstateDTO>();
 
@@ -133,7 +144,7 @@ namespace RealEstateProject.Controllers
             string name = Request.Form["name"];
             string estateType = Request.Form["estate"];
             string address = Request.Form["address"];
-            int price = int.Parse(Request.Form["price"]);
+            int price = Parse(Request.Form["price"]);
             string description = Request.Form["description"];
 
             string folderPath = @"/Images";

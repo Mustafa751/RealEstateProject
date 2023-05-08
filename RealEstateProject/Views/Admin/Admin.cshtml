@@ -1,0 +1,340 @@
+﻿<style>
+.filterBtn{
+  /* Other button styles */
+   border-radius: 20px; /* adjust the value as needed to control the roundness of the button */
+    padding: 10px 20px; /* adjust the values as needed to control the size of the button */
+    color: #333333; /* use a contrasting text color that is easily readable on the background color */
+    border: none; /* remove the border to make the button appear more rounded */
+    cursor: pointer;
+  float: right;
+}
+.card {
+  background-color: #f0e1d2;
+}
+
+.btn-secondary {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    }
+  .form-group label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .form-group input[type="range"] {
+    width: 100%;
+    margin-top: 10px;
+    -webkit-appearance: none;
+  }
+  
+  .form-group input[type="range"]:focus {
+    outline: none;
+  }
+  
+  .form-group input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: #ddd;
+    border-radius: 5px;
+  }
+  
+  .form-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .form-group input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background-color: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  #moneyLabel {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .form-group.text-right {
+    text-align: right;
+    margin-top: 15px;
+  }
+  
+  .form-group.text-right button {
+    margin-left: 10px;
+  }
+  
+  .form-group.text-right .close-btn {
+    margin-left: 0;
+  }
+  
+  @@media only screen and (max-width: 768px) {
+    .modal-content {
+      margin-top: 20%;
+    }
+  }
+  .body-page{
+  padding-top: 25px;;
+  }
+  .sort-dropdown{
+   background-color: burlywood; /* set the background color of the select element */
+    color: #333333; /* set the text color to create contrast with the background color */
+    border: none; /* remove the default border */
+    padding: 10px; /* adjust the padding as needed to control the size of the select element */
+    border-radius: 20px; /* adjust the border-radius as needed to control the roundness of the select element */
+    appearance: none; /* remove the default arrow that appears in some browsers */
+    -webkit-appearance: none; /* remove the default arrow for Safari */
+    -moz-appearance: none; /
+  }
+  
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal content */
+.modal-content {
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Modal form */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Modal heading */
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Modal form group */
+.modal-content .form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Modal label */
+.modal-content label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Modal select */
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/* Modal price range input */
+.modal-content input[type="range"] {
+  width: 100%;
+}
+
+/* Modal price label */
+.modal-content #moneyLabel {
+  display: block;
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Modal buttons */
+.modal-content .text-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal-content .btn {
+  margin-left: 10px;
+}
+.footer[b-iita29bgur]{
+  position: fixed;
+  }
+/* Close button */
+.close-btn {
+  background-color: #ccc;
+  border: none;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+</style>
+
+<div class="body-page">
+     <button id="addEstateBtn">Add Estate</button>  
+   
+    <div id="addEstateModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form enctype="multipart/form-data">
+                <label for="city">City:</label>
+                <select id="city" name="city">
+                    <option value="Sofia">Sofia</option>
+                    <option value="Varna">Varna</option>
+                    <option value="Plovdiv">Plovdiv</option>
+                    <option value="Ruse">Ruse</option>
+                    <option value="Burgas">Burgas</option>
+                </select><br><br>
+                <label for="city">EstateType:</label>
+                <select id="estate" name="estate">
+                    <option value="Apartment">Apartment</option>
+                    <option value="House">House</option>
+                    <option value="Land">Land</option>
+                </select><br><br>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name"><br><br>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address"><br><br>
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price"><br><br>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
+                <label for="image1">Image 1:</label>
+                <input type="file" id="image1" name="image1"><br><br>
+                <label for="image2">Collection of Images:</label>
+                <input type="file" id="image2" name="image2" multiple><br><br>
+                <input type="submit" id="submitAddFormButton" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+  let addEstateModal = document.getElementById("addEstateModal");
+  
+  // Get the button that opens the modal
+  let addEstateBtn = document.getElementById("addEstateBtn");
+  
+  // Get the <span> element that closes the modal
+  let addEstateSpan = document.getElementsByClassName("close")[0];
+  
+  // When the user clicks on the button, open the modal
+  addEstateBtn.onclick = function() {
+    addEstateModal.style.display = "block";
+  }
+  
+  // When the user clicks on <span> (x), close the modal
+  addEstateSpan.onclick = function() {
+    addEstateModal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target === addEstateModal) {
+      addEstateModal.style.display = "none";
+    }
+  }
+  </script>
+
+  <script>
+let modal = document.getElementById("myModal");
+
+// Get the submit button
+let submitBtn = document.getElementById("submitAddFormButton");
+
+// Listen for the form submission
+submitBtn.addEventListener("click", function(event) {
+  event.preventDefault(); // prevent the form from submitting
+   // Get form data
+   var formData = new FormData();
+   formData.append("city", document.getElementById("city").value);
+   formData.append("name", document.getElementById("name").value);
+   formData.append("estate", document.getElementById("estate").value);
+   formData.append("address", document.getElementById("address").value);
+   formData.append("price", document.getElementById("price").value);
+   formData.append("description", document.getElementById("description").value);
+   formData.append("image1", document.getElementById("image1").files[0]);
+   var image2Files = document.getElementById("image2").files;
+   for (var i = 0; i < image2Files.length; i++) {
+     formData.append("image2", image2Files[i]);
+   }
+ 
+   // Make AJAX request
+   var xhr = new XMLHttpRequest();
+   xhr.open("POST", "https://localhost:7295/api/Estate");
+   xhr.onload = function() {
+     if (xhr.status === 200) {
+       // Handle success
+       console.log("Estate added successfully");
+     } else {
+       // Handle error
+       console.log("Error adding estate");
+     }
+   };
+   xhr.send(formData);
+ });
+</script>

@@ -3,6 +3,10 @@
     ViewData["Title"] = "Home Page";
 }
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+<!-- Load custom jQuery UI theme from a CDN -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/custom-theme.css">
 
 <style>
 .filterBtn{
@@ -14,7 +18,6 @@
     cursor: pointer;
   float: right;
 }
-
 .card {
   background-color: #f0e1d2;
 }
@@ -38,7 +41,7 @@
   }
   
   .modal-content {
-    background-color: #fefefe;
+  background-color: #DECC9C;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
@@ -159,7 +162,7 @@
 
 /* Modal content */
 .modal-content {
-  background-color: #fefefe;
+  background-color: #DECC9C;
   margin: 10% auto; /* 10% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
@@ -241,7 +244,7 @@
 </style>
 <div class="body-page">
     <button class="filterBtn" id="filterBtn" style="background-color: burlywood">Filter</button>
-     <button id="addEstateBtn">Add Estate</button> 
+    @* <button id="addEstateBtn">Add Estate</button> *@ 
     <label for="sort-dropdown">Sort by:</label>
     <select class="sort-dropdown" id="sort-dropdown">
         <option value="">Please choose an option ▼</option>
@@ -255,7 +258,7 @@
         <form>
             <div class="form-group">
                 <label for="location">Location:</label>
-                <select class="form-control" id="location">
+                <select class="form-control" id="location" style="background-color: papayawhip;">
                     <option value="">Any</option>
                     <option value="Sofia">Sofia</option>
                                     <option value="Varna">Varna</option>
@@ -264,14 +267,14 @@
                                     <option value="Burgas">Burgas</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="money">Price Range:</label>
-                <input type="range" class="form-control-range" id="money" min="0" max="500000" step="1000">
-                <span id="moneyLabel">$0-$500,000</span>
-            </div>
+          <div class="form-group">
+            <label for="money">Price Range:</label>
+            <div id="money-range"></div>
+            <span id="moneyLabel">$0-$500,000</span>
+          </div>
             <div class="form-group">
                 <label for="type">Type:</label>
-                <select class="form-control" id="type">
+                <select class="form-control" id="type" style="background-color: papayawhip;">
                      <option value="Apartment">Apartment</option>
                                     <option value="House">House</option>
                                     <option value="Land">Land</option>
@@ -339,74 +342,8 @@
 </div>
 
 @section Scripts{
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-  let addEstateModal = document.getElementById("addEstateModal");
-  
-  // Get the button that opens the modal
-  let addEstateBtn = document.getElementById("addEstateBtn");
-  
-  // Get the <span> element that closes the modal
-  let addEstateSpan = document.getElementsByClassName("close")[0];
-  
-  // When the user clicks on the button, open the modal
-  addEstateBtn.onclick = function() {
-    addEstateModal.style.display = "block";
-  }
-  
-  // When the user clicks on <span> (x), close the modal
-  addEstateSpan.onclick = function() {
-    addEstateModal.style.display = "none";
-  }
-  
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target === addEstateModal) {
-      addEstateModal.style.display = "none";
-    }
-  }
-  </script>
-
-    <script>
-let modal = document.getElementById("myModal");
-
-// Get the submit button
-let submitBtn = document.getElementById("submitAddFormButton");
-
-// Listen for the form submission
-submitBtn.addEventListener("click", function(event) {
-  event.preventDefault(); // prevent the form from submitting
-   // Get form data
-   var formData = new FormData();
-   formData.append("city", document.getElementById("city").value);
-   formData.append("name", document.getElementById("name").value);
-   formData.append("estate", document.getElementById("estate").value);
-   formData.append("address", document.getElementById("address").value);
-   formData.append("price", document.getElementById("price").value);
-   formData.append("description", document.getElementById("description").value);
-   formData.append("image1", document.getElementById("image1").files[0]);
-   var image2Files = document.getElementById("image2").files;
-   for (var i = 0; i < image2Files.length; i++) {
-     formData.append("image2", image2Files[i]);
-   }
- 
-   // Make AJAX request
-   var xhr = new XMLHttpRequest();
-   xhr.open("POST", "https://localhost:7295/api/Estate");
-   xhr.onload = function() {
-     if (xhr.status === 200) {
-       // Handle success
-       console.log("Estate added successfully");
-     } else {
-       // Handle error
-       console.log("Error adding estate");
-     }
-   };
-   xhr.send(formData);
- });
-</script>
-
-    <script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
   $(document).ready(function() {
     
    $('#sort-dropdown').on('change', function() {
@@ -497,13 +434,36 @@ submitBtn.addEventListener("click", function(event) {
 
   });
   </script>
+  <!-- Load jQuery library from a CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        let moneySlider = document.getElementById("money");
-    let moneyLabel = document.getElementById("moneyLabel");
-    moneySlider.oninput = function() {
-      moneyLabel.innerHTML = "$0-" + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "";
-    }
+  <!-- Load jQuery UI library from a CDN -->
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+  <script>
+     var selectedValues = [0, 500000];
+     
+     $(function() {
+       // Initialize the slider widget
+       var slider = $("#money-range").slider({
+         range: true,
+         min: 0,
+         max: 500000,
+         step: 1000,
+         values: [0, 500000],
+         slide: function(event, ui) {
+           $("#moneyLabel").html("$" + ui.values[0] + "-$" + ui.values[1]);
+           // Update the global variable with the selected values
+           selectedValues = ui.values;
+         }
+       });
+       // Set initial label text
+       $("#moneyLabel").html("$" + slider.slider("values", 0) + "-$" + slider.slider("values", 1));
+     
+       // Get selected values from the slider and update the global variable
+       selectedValues = slider.slider("values");
+     });
+
 
     // Get the modal
     let filterModal = document.getElementById("realEstateModal");
@@ -536,10 +496,78 @@ submitBtn.addEventListener("click", function(event) {
         form.addEventListener('submit', function(event) {
         event.preventDefault(); // prevent default form submission
         let location = document.getElementById("location").value;
-        let money = document.getElementById("money").value;
         let type = document.getElementById("type").value;
+        
+        var formData = new FormData();
+           formData.append("city", location);
+           formData.append("type", type);
+           formData.append("minPrice", selectedValues[0]);
+           formData.append("maxPrice", selectedValues[1]);
+          
+         
+           // Make AJAX request
+           var xhr = new XMLHttpRequest();
+           xhr.open("POST", "https://localhost:7295/api/Estate/filter");
+           xhr.onload = function() {
+             if (xhr.status === 200) {
+              var div = document.getElementById("estates-container");
+                div.innerHTML = "";
+              let estates = JSON.parse(xhr.response);
+                    for (let estate of estates) {
+                          
+                           // Create a new card element
+                           let card = $("<div>").addClass("card d-inline-block m-5").css("width", "33rem");
+                           
+                           // Create a new image element and set its source
+                           let image = $("<img>").addClass("card-img-top w-50 float-start p-4").attr("src", estate.images[0].path);
+                           
+                           // Create a new card body element
+                           let body = $("<div>").addClass("card-body d-flex flex-column");
+                           
+                           // Create a new heading element for the estate name
+                           let heading = $("<h5>").addClass("card-title").text(estate.address);
+                           
+                           // Create a new paragraph element for the estate type
+                           let type = $("<p>").addClass("card-text").text("Estate Type: " + estate.estateType);
+                           
+                           // Create a new paragraph element for the estate price
+                           let price = $("<p>").addClass("card-text").text("Price: " + estate.price);
+                           
+                           // Create a new button element
+                           let button = $("<a>").addClass("btn btn-secondary").attr("href", "https://localhost:7295/api/Estate/" + estate.id).text("View");
+                           
+                           // Create a new container element for the button
+                           let buttonContainer = $("<div>").addClass("d-flex justify-content-end mt-4");
+                           
+                           // Append the button to the button container
+                           buttonContainer.append(button);
+                           
+                           // Append the heading, type, price, and button container to the card body
+                           body.append(heading, type, price, buttonContainer);
+                           
+                           // Append the image and card body to the card
+                           card.append(image, body);
+                     
+                     // Add the card to the page
+                     $("#estates-container").append(card);
+                     }
+                    let filterModal = document.getElementById("realEstateModal");
+                     filterModal.style.display = "none";
+             } else {
+               // Handle error
+               console.log("Error adding estate");
+             }
+           };
+           xhr.send(formData);
+        
         // Apply the selected filters and display the appropriate real estate listings on the page
         // For example, you could use an AJAX request to retrieve the filtered listings from the server and update the page with the results
         });
+        
+        
+        function emptyDiv(divId) {
+          var div = document.getElementById(divId);
+          div.innerHTML = "";
+        }
     </script>
 }
